@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+// ===== Publication Gate =====
+// Target local time: 2025-08-27 at 18:39:40 PDT (California time)
+// Equivalent UTC:   2025-08-28 at 01:39:40 UTC
+
+const releaseDate = new Date("2025-08-28T01:39:40Z"); 
+
+function checkRelease() {
+  const now = new Date();
+  if (now < releaseDate) {
+    // Replace the page with a "Coming Soon" placeholder
+    document.body.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:center;
+                  height:100vh;font-family:sans-serif;text-align:center;">
+        <div>
+          <h1>Coming Soon</h1>
+          <p>This page will be available on<br>
+          <strong>August 27, 2025 at 6:39:40 PM PDT</strong></p>
+        </div>
+      </div>`;
+  }
+}
+
+checkRelease();
+</script>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Visual Target Weight Calculator for Body Fat Percentage | Goal Weight by BF% </title>
+<meta name="description" content="Free calculator that tells you the exact weight to reach a chosen body fat percentage. Enter current weight, current BF%, target BF%, and the share of weight change that is fat to get a precise target weight with visuals." />
+<link rel="canonical" href="https://www.goalweightcalc.com/" />
+
+<!-- Indexing and previews -->
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Body Fat Target Simulator" />
+<meta property="og:title" content="Target Weight Calculator for Body Fat Percentage" />
+<meta property="og:description" content="Find the weight you need to hit your body fat goal. Works for cuts and bulks with adjustable fat mass share." />
+<meta property="og:url" content="https://www.goalweightcalc.com/" />
+<meta property="og:image" content="https://www.goalweightcalc.com/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:image" content="https://www.goalweightcalc.com/og-image.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Target Weight Calculator for Body Fat Percentage" />
+<meta name="twitter:description" content="Enter your stats and get your exact goal weight to reach a chosen BF%." />
+<meta name="twitter:image" content="https://www.goalweightcalc.com/og-image.jpg" />
+<meta name="theme-color" content="#0f172a" />
+<meta property="article:published_time" content="2025-08-28T01:39:40Z">
+<meta name="date" content="2025-08-28T01:39:40Z">
+
+<!-- Helpful, non-spammy keywords (optional) -->
+<meta name="keywords" content="target weight calculator, body fat percentage calculator, goal weight by body fat, cut calculator, bulk calculator, fat mass share" />
+
+<!-- Structured data: the page is a free web calculator with an FAQ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Body Fat Target Weight Calculator",
+  "url": "https://www.goalweightcalc.com/",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Any",
+  "isAccessibleForFree": true,
+  "description": "Calculator that computes the target weight to reach a chosen body fat percentage. Supports both cuts and bulks and lets you set the percent of weight change that is fat.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Melior LLC"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": "What weight do I need to reach my target body fat percentage?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Enter your current weight and body fat percent, your target body fat percent, and the percent of weight change that is fat. The calculator returns your exact target weight and shows fat and lean mass."
+    }
+  },{
+    "@type": "Question",
+    "name": "Does the calculator work for both cutting and bulking?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. Choose Cut or Bulk. For cuts, set the percent of weight loss that is fat. For bulks, set the percent of weight gain that is fat."
+    }
+  },{
+    "@type": "Question",
+    "name": "What percent of weight change is fat by default?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The default is 75% for cuts and 50% for bulks. You can adjust this to match your training and nutrition."
+    }
+  }]
+}
+</script>
+
+<style>
+  :root { --muted:#94a3b8; --text:#e5e7eb; --accent:#22d3ee; --accent2:#a78bfa; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#0b1024,#0f172a);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+  header{padding:20px 16px;text-align:center}
+  header h1{margin:0 0 8px;font-weight:800}
+  header p{margin:0;color:var(--muted)}
+  .container{width:100%;max-width:1200px;margin:0 auto;padding:16px;flex:1 1 auto;display:grid;gap:16px;grid-template-columns:minmax(340px,1.1fr) minmax(300px,1fr)}
+  @media (max-width:820px){.container{grid-template-columns:1fr}}
+  .card{background:rgba(17,24,39,.9);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+  label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
+  input,select{width:100%;padding:10px 12px;border-radius:10px;background:#0b1222;color:var(--text);border:1px solid rgba(255,255,255,.08)}
+  input[type=range]{appearance:none;height:6px;border-radius:6px;background:#1f2a44;outline:none}
+  input[type=range]::-webkit-slider-thumb{appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);border:1px solid #0ea5b7;cursor:pointer}
+  .small{font-size:12px;color:var(--muted)}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#0a0a0a;font-weight:700;border:none;cursor:pointer;box-shadow:0 6px 16px rgba(34,211,238,.25)}
+  .btn.secondary{background:#0b1222;color:var(--text);border:1px solid rgba(255,255,255,.08)}
+  .results{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+  @media (max-width:680px){.results{grid-template-columns:1fr}}
+  .metric{background:#0b1222;border:1px dashed rgba(255,255,255,.08);border-radius:12px;padding:12px}
+  .metric h3{margin:0;font-size:14px;color:var(--muted)}
+  .metric .value{font-size:28px;font-weight:800;margin-top:6px}
+  .metric .sub{font-size:12px;color:var(--muted);margin-top:2px}
+  .viz-wrap{display:grid;grid-template-columns:1fr;gap:16px}
+  .viz{background:#0b1222;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px}
+  .viz h3{margin:0 0 8px;font-size:14px;color:var(--muted)}
+  .comp{height:240px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column-reverse;background:#0f172a}
+  .fat{background:linear-gradient(180deg,#fb7185,#ef4444);transition:height 240ms ease}
+  .lean{background:linear-gradient(180deg,#34d399,#10b981);transition:height 240ms ease}
+  .legend{display:flex;gap:12px;margin-top:8px;align-items:center;flex-wrap:wrap}
+  .legend span{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+  .dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+  .dot.f{background:#ef4444}.dot.l{background:#10b981}
+  .warnings{margin-top:8px}
+  .warn{font-size:12px;color:#f59e0b}
+  .bad{font-size:12px;color:#ef4444}
+  footer{text-align:center;padding:18px;color:var(--muted);font-size:12px}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,Monaco,monospace}
+</style>
+</head>
+<body>
+  <header>
+    <h1> Target Weight Calculator for Body Fat Percentage</h1>
+    <p>Enter your stats and see the weight needed to hit your target body fat percentage. Visuals update in real time.</p>
+  </header>
+
+  <!-- Estimator page is in the DOM from the start (hidden) to avoid null/prepend errors) -->
+  <section class="card" id="estimatorPage" style="display:none;max-width:1200px;margin:0 auto;">
+    <h2>Estimate Your Body Fat %</h2>
+    <div style="margin:8px 0;padding:12px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:#0b1222">
+      <div style="font-size:22px;font-weight:900;margin-bottom:6px">If possible, get a DEXA or hydrostatic (underwater) test.</div>
+      <div class="small">Those are typically more accurate than tape or calipers. If that's not feasible, choose an estimation method below.</div>
+    </div>
+
+    <div class="grid-2" style="align-items:end">
+      <div>
+        <label for="bfMethod" style="margin-top:8px">Choose an estimation method</label>
+        <select id="bfMethod" style="margin-bottom:12px">
+          <option value="navy">U.S. Navy Circumference Method</option>
+          <option value="covert">Covert Bailey Method</option>
+          <option value="dw">Skinfold: Durnin–Womersley</option>
+          <option value="jp3">Skinfold: Jackson–Pollock (3-site)</option>
+          <option value="jp7">Skinfold: Jackson–Pollock (7-site)</option>
+          <option value="parrillo">Parrillo Caliper (9-site)</option>
+        </select>
+      </div>
+      <div style="text-align:right">
+        <button id="backToSim" class="btn secondary">← Back to simulator</button>
+      </div>
+    </div>
+
+    <div id="calcArea"></div>
+
+    <div style="display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap">
+      <button id="useInSimulator" class="btn" disabled>Use this % in simulator</button>
+      <span class="small" id="estNote"></span>
+    </div>
+  </section>
+
+  <div class="container" id="simulatorPane">
+    <section class="card" aria-label="inputs" id="inputsPane">
+      <h2>Inputs</h2>
+      <div class="card" id="modeCard" style="margin-bottom:12px">
+        <div class="row" style="align-items:end">
+          <div>
+            <label for="mode">Goal type</label>
+            <select id="mode">
+              <option value="cut">Cut (lose weight)</option>
+              <option value="bulk">Bulk (gain weight)</option>
+            </select>
+            <div class="small" id="modeHint"> Choose Cut or Bulk. Switching mode replaces inputs with that mode’s defaults.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:0">
+        <div>
+          <label for="height">Height</label>
+          <div class="row">
+            <input id="height" type="number" min="36" max="96" step="0.1" value="69.5" aria-describedby="heightHelp" />
+            <select id="heightUnit" aria-label="Height unit">
+              <option value="in">in</option>
+              <option value="cm">cm</option>
+            </select>
+          </div>
+          <div id="heightHelp" class="small">Used for BMI display only.</div>
+        </div>
+        <div>
+          <label for="weight">Weight</label>
+          <div class="row">
+            <input id="weight" type="number" min="40" max="700" step="0.1" value="170" />
+            <select id="weightUnit" aria-label="Weight unit">
+              <option value="lb">lb</option>
+              <option value="kg">kg</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:12px">
+        <div>
+          <label for="bfCurrent">Current body fat %</label>
+          <input id="bfCurrent" type="number" min="2" max="75" step="0.1" value="22" />
+        </div>
+        <div>
+          <label for="bfGoal">Target body fat %</label>
+          <input id="bfGoal" type="number" min="2" max="75" step="0.1" value="15" />
+        </div>
+      </div>
+
+      <div id="cutWrap" class="card" style="margin-top:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <div>
+            <label for="fatShare" id="fatShareLabelText">Percent of weight loss that is fat mass</label>
+            <div class="small"><span id="fatShareDefaultText">Default 75% (typical during cuts).</span>
+              <span id="fatShareLabel" style="margin-left:8px;color:#e5e7eb;font-weight:700">75%</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;flex:1">
+            <!-- FIX: allow decimal steps to avoid coupling to decimal of min -->
+            <input id="fatShare" type="range" min="0" max="200" step="0.1" value="75" style="flex:1"/>
+            <input id="fatShareNum" type="number" min="0" max="200" step="0.1" value="75" aria-label="Percent of weight loss or gain that is fat mass (number)" style="width:90px"/>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; align-items:center">
+        <button id="calcBtn" class="btn">Calculate</button>
+        <button id="resetBtn" class="btn secondary">Reset</button>
+        <a href="#" id="bfHelpLink" class="small" style="margin-left:auto;color:#22d3ee;text-decoration:underline">Not sure what your body fat % is?</a>
+      </div>
+
+      <details id="formulasPanel" class="card" style="margin-top:10px">
+        <summary class="small" style="cursor:pointer"><strong>Show formulas</strong> (tap to expand)</summary>
+        <div style="margin-top:8px">
+          <div id="formulaBox" class="small" style="flex:1;min-width:260px">
+            <div id="formulaText"><strong>Body Fat % Goal</strong> = ((Current Weight × Current Body Fat Percentage) − ((Current Weight − Target Weight) × Percentage of Weight Loss or Gain That's Fat Mass)) / Target Weight</div>
+            <div id="formulaTextTarget" style="margin-top:6px"><strong>Target Weight</strong> = Current Weight × (Current Body Fat Percentage − Percentage of Weight Loss or Gain That’s Fat Mass) / (Body Fat % Goal − Percentage of Weight Loss or Gain That’s Fat Mass)</div>
+            <div id="formulaLiveGoal" class="mono" style="margin-top:8px"></div>
+            <div id="formulaLiveTarget" class="mono" style="margin-top:2px"></div>
+            <div class="small" style="opacity:.8;margin-top:2px">Note: treat all percentages as decimals in calculations (e.g., 22% → 0.22). The same equations work for cuts and bulks.</div>
+          </div>
+        </div>
+      </details>
+      <div class="warnings" id="warnings"></div>
+    </section>
+
+    <section class="card" aria-label="results" id="resultsPane">
+      <h2>Results</h2>
+      <div class="results">
+        <div class="metric">
+          <h3>Target weight</h3>
+          <div class="value" id="targetWeight">N/A</div>
+          <div class="sub" id="targetWeightSub">lb</div>
+        </div>
+        <div class="metric">
+          <h3>BMI (current -> target)</h3>
+          <div class="value" id="bmiVal">N/A</div>
+          <div class="sub" id="bmiSub">kg/m²</div>
+        </div>
+        <div class="metric">
+          <h3>Current composition</h3>
+          <div class="value" id="currComp">N/A</div>
+          <div class="sub" id="currCompSub">fat / lean</div>
+        </div>
+        <div class="metric">
+          <h3>Target composition</h3>
+          <div class="value" id="tgtComp">N/A</div>
+          <div class="sub" id="tgtCompSub">fat / lean</div>
+        </div>
+      </div>
+
+      <div class="viz-wrap" style="margin-top:14px">
+        <div class="viz">
+          <h3>Body composition bars</h3>
+          <div class="grid-2">
+            <div>
+              <div class="comp" aria-label="current composition bar">
+                <div class="fat" id="barFatCurr" style="height:40%"></div>
+                <div class="lean" id="barLeanCurr" style="height:60%"></div>
+              </div>
+              <div class="legend"><span><i class="dot f"></i>Fat</span><span><i class="dot l"></i>Lean</span></div>
+            </div>
+            <div>
+              <div class="comp" aria-label="target composition bar">
+                <div class="fat" id="barFatTgt" style="height:20%"></div>
+                <div class="lean" id="barLeanTgt" style="height:80%"></div>
+              </div>
+              <div class="legend"><span><i class="dot f"></i>Fat</span><span><i class="dot l"></i>Lean</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+  </div>
+
+  <footer>
+    Built for quick what-if checks. This is not medical advice.
+  </footer>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const els = {
+    height: document.getElementById('height'),
+    heightUnit: document.getElementById('heightUnit'),
+    weight: document.getElementById('weight'),
+    weightUnit: document.getElementById('weightUnit'),
+    bfCurrent: document.getElementById('bfCurrent'),
+    bfGoal: document.getElementById('bfGoal'),
+    fatShare: document.getElementById('fatShare'),
+    fatShareLabel: document.getElementById('fatShareLabel'),
+    fatShareNum: document.getElementById('fatShareNum'),
+    calcBtn: document.getElementById('calcBtn'),
+    resetBtn: document.getElementById('resetBtn'),
+    warnings: document.getElementById('warnings'),
+    targetWeight: document.getElementById('targetWeight'),
+    targetWeightSub: document.getElementById('targetWeightSub'),
+    currComp: document.getElementById('currComp'),
+    currCompSub: document.getElementById('currCompSub'),
+    tgtComp: document.getElementById('tgtComp'),
+    tgtCompSub: document.getElementById('tgtCompSub'),
+    bmiVal: document.getElementById('bmiVal'),
+    bmiSub: document.getElementById('bmiSub'),
+    barFatCurr: document.getElementById('barFatCurr'),
+    barLeanCurr: document.getElementById('barLeanCurr'),
+    barFatTgt: document.getElementById('barFatTgt'),
+    barLeanTgt: document.getElementById('barLeanTgt'),
+    bfHelpLink: document.getElementById('bfHelpLink'),
+    estimatorPage: document.getElementById('estimatorPage'),
+    simulatorPane: document.getElementById('simulatorPane'),
+    bfMethod: document.getElementById('bfMethod'),
+    calcArea: document.getElementById('calcArea'),
+    useInSimulator: document.getElementById('useInSimulator'),
+    estNote: document.getElementById('estNote'),
+    backToSim: document.getElementById('backToSim'),
+    formulaLiveGoal: document.getElementById('formulaLiveGoal'),
+    formulaLiveTarget: document.getElementById('formulaLiveTarget'),
+    runTests: document.getElementById('runTests'),
+    testOutput: document.getElementById('testOutput'),
+    mode: document.getElementById('mode'),
+    modeHint: document.getElementById('modeHint'),
+    fatShareLabelText: document.getElementById('fatShareLabelText'),
+    fatShareDefaultText: document.getElementById('fatShareDefaultText')
+  };
+
+  let userTouchedFatShare = false;
+  let manualMode = false; // user can override auto-detection
+  let lastMode = null; // track last inferred mode to apply bulk defaults once per switch
+
+  function toLb(kg){ return kg * 2.20462262185; }
+  function toKg(lb){ return lb / 2.20462262185; }
+  function toIn(cm){ return cm / 2.54; }
+  function toCm(inches){ return inches * 2.54; }
+
+  function getWeightLb(){
+    const w = parseFloat(els.weight.value || '0');
+    return els.weightUnit.value === 'lb' ? w : toLb(w);
+  }
+  function getHeightIn(){
+    const h = parseFloat(els.height.value || '0');
+    return els.heightUnit.value === 'in' ? h : toIn(h);
+  }
+
+  function fmt(n, digits=1){ if(!isFinite(n)) return 'N/A'; return Number(n).toLocaleString(undefined,{maximumFractionDigits:digits,minimumFractionDigits:digits}); }
+
+  function validate(){
+    const issues = [];
+    const hIn = getHeightIn();
+    const wLb = getWeightLb();
+    const c = parseFloat(els.bfCurrent.value)/100;
+    const g = parseFloat(els.bfGoal.value)/100;
+    const p = parseFloat(els.fatShare.value)/100;
+
+    if (!(hIn > 0)) issues.push({type:'bad', text:'Height must be positive.'});
+    if (!(wLb > 0)) issues.push({type:'bad', text:'Weight must be positive.'});
+    if (!(c > 0 && c < 0.95)) issues.push({type:'bad', text:'Enter a realistic current body fat percent.'});
+    if (!(g > 0 && g < 0.95)) issues.push({type:'bad', text:'Enter a realistic target body fat percent.'});
+
+    // NEW: require p to be at least max(current BF%, target BF%)
+    if (!(p >= Math.max(c, g) && p <= 2)) {
+      issues.push({type:'bad', text:'Percent of weight loss or gain that is fat must be between max(Current BF%, Target BF%) and 200%.'});
+    }
+
+    if (Math.abs(g - p) < 1e-6) issues.push({type:'bad', text:'Denominator (Goal BF% − Percent Fat of Loss/Gain) is near zero.'});
+
+    els.warnings.innerHTML = issues.map(i => '<div class="' + i.type + '">• ' + i.text + '</div>').join('');
+    return issues;
+  }
+
+  function compute(){
+    // Update label chip
+    els.fatShareLabel.textContent = els.fatShare.value + '%';
+
+    const issues = validate();
+    if (issues.some(i => i.type === 'bad')) return;
+
+    const W = getWeightLb();
+    const C = parseFloat(els.bfCurrent.value)/100;
+    const G = parseFloat(els.bfGoal.value)/100;
+    const p = parseFloat(els.fatShare.value)/100;
+
+    // Target weight from rearranged general formula
+    const Wt_lb = W * (C - p) / (G - p);
+
+    // Composition at target
+    const tgtFat_lb = Wt_lb * G;
+    const tgtLean_lb = Wt_lb - tgtFat_lb;
+
+    // Current composition
+    const currFat_lb = W * C, currLean_lb = W - currFat_lb;
+
+    // BMI
+    const hIn = getHeightIn();
+    const bmiNow = (W / (hIn*hIn)) * 703;
+    const bmiTgt = (Wt_lb / (hIn*hIn)) * 703;
+
+    // Metrics
+    const unit = els.weightUnit.value;
+    const W_disp = unit === 'lb' ? W : toKg(W);
+    const Wt_disp = unit === 'lb' ? Wt_lb : toKg(Wt_lb);
+    els.targetWeight.textContent = fmt(Wt_disp, 1);
+    els.targetWeightSub.textContent = unit;
+    els.currComp.textContent = fmt(currFat_lb,1) + ' lb fat • ' + fmt(currLean_lb,1) + ' lb lean';
+    els.currCompSub.textContent = 'at ' + fmt(C*100,1) + '% BF';
+    els.tgtComp.textContent = fmt(tgtFat_lb,1) + ' lb fat • ' + fmt(tgtLean_lb,1) + ' lb lean';
+    els.tgtCompSub.textContent = 'at ' + fmt(G*100,1) + '% BF';
+    els.bmiVal.textContent = fmt(bmiNow,1) + ' -> ' + fmt(bmiTgt,1);
+
+    // Bars (use C & G only)
+    const fatNowPct = Math.max(0, Math.min(95, C*100));
+    const fatTgtPct = Math.max(0, Math.min(95, G*100));
+    els.barFatCurr.style.height = fatNowPct + '%';
+    els.barLeanCurr.style.height = (100 - fatNowPct) + '%';
+    els.barFatTgt.style.height = fatTgtPct + '%';
+    els.barLeanTgt.style.height = (100 - fatTgtPct) + '%';
+
+    // Live formula substitutions (general form)
+    const f3 = function(x){ return (isFinite(x)? Number(x).toFixed(3):'N/A'); };
+    const G_check = ((C*W) - ((W - Wt_lb)*p)) / Wt_lb;
+    els.formulaLiveGoal.textContent = 'Body Fat % Goal = ((' + f3(W_disp) + ' ' + unit + ' × ' + f3(C) + ') − ((' + f3(W_disp) + ' ' + unit + ' − ' + f3(Wt_disp) + ' ' + unit + ') × ' + f3(p) + ')) / ' + f3(Wt_disp) + ' ' + unit + ' = ' + f3(G_check) + ' (' + (G_check*100).toFixed(2) + '%)';
+    els.formulaLiveTarget.textContent = 'Target Weight = ' + f3(W_disp) + ' ' + unit + ' × (' + f3(C) + ' − ' + f3(p) + ') / (' + f3(G) + ' − ' + f3(p) + ') = ' + f3(Wt_disp) + ' ' + unit;
+  }
+
+  function onUnitChange(e){
+    if (e.target.id === 'weightUnit'){
+      const unit = els.weightUnit.value; var val = parseFloat(els.weight.value || '0');
+      els.weight.value = unit === 'lb' ? fmt(toLb(val),1) : fmt(toKg(val),1);
+    }
+    if (e.target.id === 'heightUnit'){
+      const unit = els.heightUnit.value; var valh = parseFloat(els.height.value || '0');
+      els.height.value = unit === 'in' ? fmt(toIn(valh),1) : fmt(toCm(valh),1);
+    }
+    compute();
+  }
+
+  function updateMode(auto = true){
+  // Decide mode: auto from BF% unless the user manually chose a mode
+  let mode = els.mode.value;
+  if (auto && !manualMode){
+    const C = parseFloat(els.bfCurrent.value)/100;
+    const G = parseFloat(els.bfGoal.value)/100;
+    mode = (C >= G) ? 'cut' : 'bulk';
+    els.mode.value = mode;
+  }
+
+  // Labels + defaults for fatShare (only if user hasn't touched)
+  if (mode === 'cut'){
+    els.fatShareLabelText.textContent = 'Percent of weight loss that is fat mass';
+    els.fatShareDefaultText.textContent = 'Default 75% (typical during cuts).';
+    if (!userTouchedFatShare){ els.fatShare.value = 75; els.fatShareNum.value = 75; }
+  } else {
+    els.fatShareLabelText.textContent = 'Percent of weight gain that is fat mass';
+    els.fatShareDefaultText.textContent = 'Default 50% (typical during bulks).';
+    if (!userTouchedFatShare){ els.fatShare.value = 50; els.fatShareNum.value = 50; }
+  }
+  els.fatShareLabel.textContent = els.fatShare.value + '%';
+}
+  function enforceGoalConstraint(){
+    const curr = parseFloat(els.bfCurrent.value || '0');
+    let goal = parseFloat(els.bfGoal.value || '0');
+    if (els.mode.value === 'cut') {
+      // In cut, goal cannot be higher than current
+      els.bfGoal.min = 2;
+      els.bfGoal.max = curr || 75;
+      if (isFinite(goal) && isFinite(curr) && goal > curr) {
+        goal = curr;
+        els.bfGoal.value = goal.toFixed(1);
+      }
+    } else { // bulk
+      // In bulk, goal cannot be lower than current
+      els.bfGoal.min = curr || 2;
+      els.bfGoal.max = 75;
+      if (isFinite(goal) && isFinite(curr) && goal < curr) {
+        goal = curr;
+        els.bfGoal.value = goal.toFixed(1);
+      }
+    }
+  }
+  // Ensure fat-mass % can't be below max(current BF%, target BF%)
+  function enforceFatShareMin(){
+    const currPct = parseFloat(els.bfCurrent.value || '0'); // percent units
+    const goalPct = parseFloat(els.bfGoal.value || '0');
+    if (!isFinite(currPct) || !isFinite(goalPct)) return;
+    const minPct = Math.max(0, Math.min(200, Math.max(currPct, goalPct)));
+    els.fatShare.min = String(minPct);
+    els.fatShareNum.min = String(minPct);
+
+    // step stays 0.1 so values aren't constrained to match min's decimal
+    els.fatShare.step = '0.1';
+    els.fatShareNum.step = '0.1';
+
+    let v1 = parseFloat(els.fatShare.value || '0');
+    let v2 = parseFloat(els.fatShareNum.value || '0');
+    if (isFinite(v1) && v1 < minPct) { els.fatShare.value = String(minPct); v1 = minPct; }
+    if (isFinite(v2) && v2 < minPct) { els.fatShareNum.value = String(minPct); v2 = minPct; }
+    els.fatShareLabel.textContent = (isFinite(v2)? v2 : v1) + '%';
+  }
+
+  // BF% estimator helpers (unchanged)
+  function setResult(pct){
+    const valid = isFinite(pct) && pct>0 && pct<80;
+    els.useInSimulator.disabled = !valid;
+    els.useInSimulator.dataset.value = valid ? pct.toFixed(2) : '';
+    els.estNote.textContent = valid ? ('Estimated BF%: ' + pct.toFixed(2) + '%') : '';
+  }
+
+  function buildMethodUI(){
+    const v = els.bfMethod.value;
+    var html = '';
+    if (v==='navy'){
+      html = '\n        <div class="grid-2">\n          <div><label>Gender</label>\n            <select id="navyGender"><option value="male">Male</option><option value="female">Female</option></select>\n          </div>\n          <div><label>Height (in)</label><input id="navyHeight" type="number" step="0.1" value="69.5"></div>\n        </div>\n        <div class="grid-2" style="margin-top:8px">\n          <div><label>Neck (in)</label><input id="navyNeck" type="number" step="0.1" value="15"></div>\n          <div><label>Waist (in)</label><input id="navyWaist" type="number" step="0.1" value="34"></div>\n          <div id="navyHipWrap"><label>Hip (in) — females only</label><input id="navyHip" type="number" step="0.1" value="38"></div>\n        </div>\n        <div style="margin-top:10px"><button class="btn secondary" id="navyCalc">Estimate</button></div>\n        <div class="small" style="margin-top:6px">Uses the U.S. Navy tape equation (Hodgdon & Beckett).</div>';
+    } else if (v==='covert'){
+      html = '\n        <div class="grid-2">\n          <div><label>Gender</label><select id="cbGender"><option value="male">Male</option><option value="female">Female</option></select></div>\n          <div><label>Age</label><input id="cbAge" type="number" min="10" max="99" value="30"></div>\n        </div>\n        <div class="grid-2" style="margin-top:8px">\n          <div><label>Units</label><select id="cbUnits"><option value="in">inches</option><option value="cm">cm</option></select></div>\n          <div><label>Waist</label><input id="cbWaist" type="number" step="0.1" value="34"></div>\n          <div><label>Hips</label><input id="cbHips" type="number" step="0.1" value="38"></div>\n          <div><label>Forearm</label><input id="cbForearm" type="number" step="0.1" value="11"></div>\n          <div><label>Wrist</label><input id="cbWrist" type="number" step="0.1" value="6.5"></div>\n          <div><label>Thigh (women)</label><input id="cbThigh" type="number" step="0.1" value="22"></div>\n          <div><label>Calf (women)</label><input id="cbCalf" type="number" step="0.1" value="14"></div>\n        </div>\n        <div style="margin-top:10px"><button class="btn secondary" id="cbCalc">Estimate</button></div>\n        <div class="small" style="margin-top:6px">Unofficial circumference method (simple, less standardized).</div>';
+    } else if (v==='dw'){
+      html = '\n        <div class="grid-2">\n          <div><label>Gender</label><select id="dwGender"><option value="male">Male</option><option value="female">Female</option></select></div>\n          <div><label>Age</label><input id="dwAge" type="number" min="16" max="90" value="30"></div>\n        </div>\n        <div class="grid-2" style="margin-top:8px">\n          <div><label>Triceps (mm)</label><input id="dwTri" type="number" step="0.1" value="12"></div>\n          <div><label>Biceps (mm)</label><input id="dwBi" type="number" step="0.1" value="6"></div>\n          <div><label>Subscapular (mm)</label><input id="dwSub" type="number" step="0.1" value="12"></div>\n          <div><label>Suprailiac (mm)</label><input id="dwSupra" type="number" step="0.1" value="14"></div>\n        </div>\n        <div style="margin-top:10px"><button class="btn secondary" id="dwCalc">Estimate</button></div>\n        <div class="small" style="margin-top:6px">Durnin–Womersley (4-site) → Siri equation.</div>';
+    } else if (v==='jp3'){
+      html = '\n        <div class="grid-2">\n          <div><label>Gender</label><select id="jp3Gender"><option value="male">Male</option><option value="female">Female</option></select></div>\n          <div><label>Age</label><input id="jp3Age" type="number" min="16" max="90" value="30"></div>\n        </div>\n        <div class="grid-2" style="margin-top:8px" id="jp3Fields"></div>\n        <div style="margin-top:10px"><button class="btn secondary" id="jp3Calc">Estimate</button></div>\n        <div class="small" style="margin-top:6px">Jackson–Pollock (3-site) → Siri equation.</div>';
+    } else if (v==='jp7'){
+      html = '\n        <div class="grid-2">\n          <div><label>Gender</label><select id="jp7Gender"><option value="male">Male</option><option value="female">Female</option></select></div>\n          <div><label>Age</label><input id="jp7Age" type="number" min="16" max="90" value="30"></div>\n        </div>\n        <div class="grid-2" style="margin-top:8px">\n          <div><label>Chest (mm)</label><input id="jp7Chest" type="number" step="0.1" value="10"></div>\n          <div><label>Axilla (mm)</label><input id="jp7Axilla" type="number" step="0.1" value="8"></div>\n          <div><label>Triceps (mm)</label><input id="jp7Tri" type="number" step="0.1" value="12"></div>\n          <div><label>Subscapular (mm)</label><input id="jp7Sub" type="number" step="0.1" value="12"></div>\n          <div><label>Abdominal (mm)</label><input id="jp7Abd" type="number" step="0.1" value="15"></div>\n          <div><label>Suprailiac (mm)</label><input id="jp7Sup" type="number" step="0.1" value="14"></div>\n          <div><label>Thigh (mm)</label><input id="jp7Th" type="number" step="0.1" value="18"></div>\n        </div>\n        <div style="margin-top:10px"><button class="btn secondary" id="jp7Calc">Estimate</button></div>\n        <div class="small" style="margin-top:6px">Jackson–Pollock (7-site) → Siri equation.</div>';
+    } else if (v==='parrillo'){
+      html = '\n        <div class="grid-2">\n          <div><label>Weight (lb)</label><input id="paWt" type="number" step="0.1" value="170"></div>\n          <div><label>Skinfolds</label><span class="small">All in mm</span></div>\n        </div>\n        <div class="grid-2" style="margin-top:8px">\n          <div><label>Chest</label><input id="paChest" type="number" step="0.1" value="8"></div>\n          <div><label>Abdominal</label><input id="paAbd" type="number" step="0.1" value="12"></div>\n          <div><label>Thigh</label><input id="paTh" type="number" step="0.1" value="15"></div>\n          <div><label>Bicep</label><input id="paBi" type="number" step="0.1" value="6"></div>\n          <div><label>Tricep</label><input id="paTri" type="number" step="0.1" value="10"></div>\n          <div><label>Subscapular</label><input id="paSub" type="number" step="0.1" value="12"></div>\n          <div><label>Suprailiac</label><input id="paSup" type="number" step="0.1" value="12"></div>\n          <div><label>Lower Back</label><input id="paLow" type="number" step="0.1" value="10"></div>\n          <div><label>Calf</label><input id="paCalf" type="number" step="0.1" value="12"></div>\n        </div>\n        <div style="margin-top:10px"><button class="btn secondary" id="paCalc">Estimate</button></div>\n        <div class="small" style="margin-top:6px">Parrillo: %BF = (sum of 9 sites × 27) / bodyweight (lb).</div>';
+    }
+    els.calcArea.innerHTML = html;
+
+    // Per-method wiring (examples)
+    if (v==='navy'){
+      const g = document.getElementById('navyGender');
+      const hipWrap = document.getElementById('navyHipWrap');
+      const toggleHip = function(){ if (hipWrap) hipWrap.style.display = g.value==='female' ? 'block' : 'none'; };
+      if (g) g.addEventListener('change', toggleHip);
+      toggleHip();
+      document.getElementById('navyCalc').addEventListener('click', function(){
+        const gender = g.value;
+        const h = parseFloat(document.getElementById('navyHeight').value);
+        const neck = parseFloat(document.getElementById('navyNeck').value);
+        const waist = parseFloat(document.getElementById('navyWaist').value);
+        const hip = parseFloat(document.getElementById('navyHip').value);
+        var bf;
+        if (gender==='male'){
+          bf = 86.010*Math.log10(waist - neck) - 70.041*Math.log10(h) + 36.76;
+        } else {
+          bf = 163.205*Math.log10(waist + hip - neck) - 97.684*Math.log10(h) - 78.387;
+        }
+        setResult(bf);
+      });
+    }
+
+    if (v==='covert'){
+      document.getElementById('cbCalc').addEventListener('click', function(){
+        const sex = document.getElementById('cbGender').value;
+        const age = parseInt(document.getElementById('cbAge').value,10);
+        const units = document.getElementById('cbUnits').value;
+        const inz = function(x){ return units==='in' ? x : (x/2.54); };
+        const waist = inz(parseFloat(document.getElementById('cbWaist').value));
+        const hips = inz(parseFloat(document.getElementById('cbHips').value));
+        const forearm = inz(parseFloat(document.getElementById('cbForearm').value));
+        const wrist = inz(parseFloat(document.getElementById('cbWrist').value));
+        const thigh = inz(parseFloat(document.getElementById('cbThigh').value));
+        const calf = inz(parseFloat(document.getElementById('cbCalf').value));
+        var bf;
+        if (sex==='male'){
+          const k = (age>30) ? 2.7 : 3.0;
+          bf = waist + 0.5*hips - k*forearm - wrist;
+        } else {
+          bf = hips + 0.8*thigh - 2*calf - wrist;
+        }
+        setResult(bf);
+      });
+    }
+
+    if (v==='dw'){
+      document.getElementById('dwCalc').addEventListener('click', function(){
+        const sex = document.getElementById('dwGender').value;
+        const age = parseInt(document.getElementById('dwAge').value,10);
+        const tri = parseFloat(document.getElementById('dwTri').value);
+        const bi = parseFloat(document.getElementById('dwBi').value);
+        const sub = parseFloat(document.getElementById('dwSub').value);
+        const sup = parseFloat(document.getElementById('dwSupra').value);
+        const sum = tri+bi+sub+sup; const L = Math.log10(sum);
+        function coeff(sex, age){
+          const bands = sex==='male'
+            ? [[16,1.1533,0.0643],[19,1.1620,0.0630],[29,1.1631,0.0632],[39,1.1422,0.0544],[49,1.1620,0.0700],[150,1.1715,0.0779]]
+            : [[16,1.1369,0.0598],[19,1.1549,0.0678],[29,1.1599,0.0717],[39,1.1423,0.0632],[49,1.1333,0.0612],[150,1.1339,0.0645]];
+          for (var i=0;i<bands.length;i++){ var max=bands[i][0], a=bands[i][1], b=bands[i][2]; if (age<=max) return {a:a,b:b}; }
+          return {a:1.1533,b:0.0643};
+        }
+        const cfb = coeff(sex, age);
+        const Db = cfb.a - cfb.b*L;
+        const bf = (495/Db) - 450;
+        setResult(bf);
+      });
+    }
+
+    if (v==='jp3'){
+      const fields = document.getElementById('jp3Fields');
+      function paint(){
+        const g = document.getElementById('jp3Gender').value;
+        fields.innerHTML = g==='male'
+          ? '<div><label>Chest (mm)</label><input id="jp3A" type="number" step="0.1" value="10"></div>\n             <div><label>Abdominal (mm)</label><input id="jp3B" type="number" step="0.1" value="15"></div>\n             <div><label>Thigh (mm)</label><input id="jp3C" type="number" step="0.1" value="18"></div>'
+          : '<div><label>Triceps (mm)</label><input id="jp3A" type="number" step="0.1" value="12"></div>\n             <div><label>Suprailiac (mm)</label><input id="jp3B" type="number" step="0.1" value="14"></div>\n             <div><label>Thigh (mm)</label><input id="jp3C" type="number" step="0.1" value="18"></div>';
+      }
+      paint();
+      document.getElementById('jp3Gender').addEventListener('change', paint);
+      document.getElementById('jp3Calc').addEventListener('click', function(){
+        const g = document.getElementById('jp3Gender').value;
+        const age = parseInt(document.getElementById('jp3Age').value,10);
+        const A = parseFloat(document.getElementById('jp3A').value);
+        const B = parseFloat(document.getElementById('jp3B').value);
+        const C = parseFloat(document.getElementById('jp3C').value);
+        const sum = A+B+C;
+        var Db;
+        if (g==='male'){
+          Db = 1.10938 - 0.0008267*sum + 0.0000016*sum*sum - 0.0002574*age;
+        } else {
+          Db = 1.0994921 - 0.0009929*sum + 0.0000023*sum*sum - 0.0001392*age;
+        }
+        const bf = (495/Db) - 450;
+        setResult(bf);
+      });
+    }
+
+    if (v==='jp7'){
+      document.getElementById('jp7Calc').addEventListener('click', function(){
+        const g = document.getElementById('jp7Gender').value;
+        const age = parseInt(document.getElementById('jp7Age').value,10);
+        const S = parseFloat(document.getElementById('jp7Chest').value)
+                + parseFloat(document.getElementById('jp7Axilla').value)
+                + parseFloat(document.getElementById('jp7Tri').value)
+                + parseFloat(document.getElementById('jp7Sub').value)
+                + parseFloat(document.getElementById('jp7Abd').value)
+                + parseFloat(document.getElementById('jp7Sup').value)
+                + parseFloat(document.getElementById('jp7Th').value);
+        var Db;
+        if (g==='male'){
+          Db = 1.112 - 0.00043499*S + 0.00000055*S*S - 0.00028826*age;
+        } else {
+          Db = 1.097 - 0.00046971*S + 0.00000056*S*S - 0.00012828*age;
+        }
+        const bf = (495/Db) - 450;
+        setResult(bf);
+      });
+    }
+
+    if (v==='parrillo'){
+      document.getElementById('paCalc').addEventListener('click', function(){
+        const Wlb = parseFloat(document.getElementById('paWt').value);
+        const ids = ['paChest','paAbd','paTh','paBi','paTri','paSub','paSup','paLow','paCalf'];
+        var sum = 0; for (var i=0;i<ids.length;i++){ sum += parseFloat(document.getElementById(ids[i]).value); }
+        const bf = (sum * 27) / Wlb;
+        setResult(bf);
+      });
+    }
+  }
+
+  function showEstimator(show){
+    els.estimatorPage.style.display = show ? 'block' : 'none';
+    els.simulatorPane.style.display = show ? 'none' : 'grid';
+  }
+
+  // Nav
+  els.bfHelpLink.addEventListener('click', function(e){ e.preventDefault(); showEstimator(true); buildMethodUI(); });
+  els.backToSim.addEventListener('click', function(){ showEstimator(false); });
+  els.bfMethod.addEventListener('change', buildMethodUI);
+  els.useInSimulator.addEventListener('click', function(){
+    const v = parseFloat(els.useInSimulator.dataset.value || '');
+    if (isFinite(v)){
+      els.bfCurrent.value = v.toFixed(2);
+      updateMode(true);
+      showEstimator(false);
+      enforceFatShareMin(); // keep min in sync when current BF% changes via estimator
+      compute();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+  });
+
+  // Main events
+  els.resetBtn.addEventListener('click', function(){
+  els.height.value = 70; els.heightUnit.value = 'in';
+  els.weight.value = 200; els.weightUnit.value = 'lb';
+  els.bfCurrent.value = 30; els.bfGoal.value = 15;
+  userTouchedFatShare = false;
+  manualMode = false;                 // keep as before
+  updateMode(true); // sets defaults per mode
+  enforceGoalConstraint();
+  enforceFatShareMin();
+  els.warnings.innerHTML = '';
+  compute();
+});
+
+
+  ['input','change'].forEach(function(evt){
+    els.bfCurrent.addEventListener(evt, function(){ updateMode(true); enforceGoalConstraint(); enforceFatShareMin(); compute(); });
+    els.weight.addEventListener(evt, compute);
+    els.height.addEventListener(evt, compute);
+    els.bfGoal.addEventListener(evt, function(){ updateMode(true); enforceGoalConstraint(); enforceFatShareMin(); compute(); });
+    els.fatShare.addEventListener(evt, function(){
+      userTouchedFatShare = true;
+      var v = parseFloat(els.fatShare.value || '');
+      if (!isFinite(v)) return;
+      const minCurr = Math.max(parseFloat(els.bfCurrent.value || '0'), parseFloat(els.bfGoal.value || '0'));
+      if (v < minCurr) v = minCurr; if (v > 200) v = 200;
+      els.fatShare.value = v; els.fatShareNum.value = v; els.fatShareLabel.textContent = v + '%';
+      compute();
+    });
+    els.fatShareNum.addEventListener(evt, function(){
+      userTouchedFatShare = true;
+      var v = parseFloat(els.fatShareNum.value || '');
+      if (!isFinite(v)) return;
+      const minCurr = Math.max(parseFloat(els.bfCurrent.value || '0'), parseFloat(els.bfGoal.value || '0'));
+      if (v < minCurr) v = minCurr; if (v > 200) v = 200;
+      els.fatShareNum.value = v; els.fatShare.value = v; els.fatShareLabel.textContent = v + '%';
+      compute();
+    });
+    els.weightUnit.addEventListener(evt, onUnitChange);
+    els.heightUnit.addEventListener(evt, onUnitChange);
+  });
+
+
+// Mode is user-selectable; switching applies that mode's defaults
+els.mode.addEventListener('change', function(){
+  manualMode = true;
+  userTouchedFatShare = false; // allow mode defaults to apply
+
+  if (els.mode.value === 'bulk'){
+    // Bulk defaults
+    els.weightUnit.value = 'lb';
+    els.weight.value = 150;
+    els.bfCurrent.value = 10;
+    els.bfGoal.value = 15;
+  } else {
+    // Cut defaults
+    els.weightUnit.value = 'lb';
+    els.weight.value = 170;
+    els.bfCurrent.value = 30; // fixed: cut default should be 30, not 22
+    els.bfGoal.value = 15;
+  }
+  updateMode(false);
+  enforceGoalConstraint();
+  enforceFatShareMin();
+  compute();
+});
+
+
+  // First paint
+  updateMode(true);
+  enforceGoalConstraint();
+  enforceFatShareMin();
+  els.fatShareNum.value = els.fatShare.value;
+  compute();
+});
+</script>
+</body>
+</html>
